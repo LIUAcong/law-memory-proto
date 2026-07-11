@@ -1,0 +1,2314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>法学记忆 - 法硕考研助手</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+:root {
+  --primary: #722F37;
+  --primary-light: #8B3E47;
+  --primary-dark: #5A1E25;
+  --accent: #C9A96E;
+  --accent-light: #DFC896;
+  --bg: #FBF7F0;
+  --bg-card: #FFFFFF;
+  --bg-secondary: #F5EDE0;
+  --text: #2C1810;
+  --text-secondary: #7A6B5D;
+  --text-tertiary: #A89888;
+  --border: #E8DCC8;
+  --success: #2D6A4F;
+  --success-bg: #EEF5F0;
+  --error: #C44E4E;
+  --error-bg: #FDF0F0;
+  --warning: #C9883A;
+  --warning-bg: #FDF5EC;
+  --shadow: 0 2px 12px rgba(44,24,16,0.06);
+  --shadow-lg: 0 8px 32px rgba(44,24,16,0.1);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-xs: 6px;
+  --font-serif: 'Noto Serif SC', 'Source Han Serif SC', serif;
+  --font-sans: 'Noto Sans SC', 'Source Han Sans SC', sans-serif;
+  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] {
+  --primary: #C47A7A;
+  --primary-light: #D49494;
+  --primary-dark: #A55A5A;
+  --accent: #C9A96E;
+  --accent-light: #DFC896;
+  --bg: #1A1410;
+  --bg-card: #241C16;
+  --bg-secondary: #2C2218;
+  --text: #F0E6D8;
+  --text-secondary: #B8A898;
+  --text-tertiary: #7A6B5D;
+  --border: #3A2E20;
+  --success: #4CAF7A;
+  --success-bg: #1A2E20;
+  --error: #D47272;
+  --error-bg: #2E1A1A;
+  --warning: #D4A050;
+  --warning-bg: #2E2418;
+  --shadow: 0 2px 12px rgba(0,0,0,0.2);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.3);
+}
+
+[data-theme="eye-care"] {
+  --primary: #5B8C5A;
+  --primary-light: #7BA87A;
+  --primary-dark: #3D6B3C;
+  --accent: #8B9A6E;
+  --bg: #E8F0E0;
+  --bg-card: #F2F7EE;
+  --bg-secondary: #DDE8D5;
+  --text: #2C3320;
+  --text-secondary: #5A6650;
+  --text-tertiary: #8A9680;
+  --border: #C8D5BE;
+  --success: #3D8B4A;
+  --success-bg: #E5F0E5;
+  --error: #B85A5A;
+  --error-bg: #F5E8E8;
+  --warning: #8B7A3D;
+  --warning-bg: #F0EDE0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-sans);
+  background: #1a1a2e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.phone-frame {
+  width: 390px;
+  height: 844px;
+  background: var(--bg);
+  border-radius: 40px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 2px #2a2a3e;
+  display: flex;
+  flex-direction: column;
+  transition: background var(--transition);
+}
+
+.status-bar {
+  height: 50px;
+  background: transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 28px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  flex-shrink: 0;
+}
+
+.status-bar .offline-badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: var(--warning-bg);
+  color: var(--warning);
+  display: none;
+}
+.status-bar .offline-badge.show { display: inline-block; }
+
+.app-header {
+  padding: 6px 20px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.app-header .logo {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: 0.02em;
+}
+
+.app-header .header-actions { display: flex; gap: 8px; }
+
+.icon-btn {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+}
+.icon-btn:active { transform: scale(0.92); background: var(--border); }
+
+.page-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 16px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+.page-content::-webkit-scrollbar { display: none; }
+
+/* Tab Bar */
+.tab-bar {
+  height: 64px;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 8px 8px;
+  flex-shrink: 0;
+}
+
+.tab-item {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 6px 12px; border-radius: 10px; cursor: pointer;
+  transition: all var(--transition); border: none; background: none;
+  font-family: var(--font-sans); color: var(--text-tertiary);
+  font-size: 11px; font-weight: 500; min-width: 60px;
+}
+.tab-item .tab-icon { font-size: 22px; transition: all var(--transition); }
+.tab-item.active { color: var(--primary); }
+.tab-item.active .tab-icon { transform: scale(1.1); }
+.tab-item:active { transform: scale(0.95); }
+
+/* Screens */
+.screen { display: none; flex-direction: column; gap: 12px; padding-bottom: 16px; }
+.screen.active { display: flex; }
+
+/* ====== V1.2 HOME: Task-Driven Layout ====== */
+.greeting-row {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 2px;
+}
+.greeting {
+  font-family: var(--font-serif);
+  font-size: 22px; font-weight: 600; color: var(--text);
+}
+.greeting-sub {
+  font-size: 12px; color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* Main CTA Card */
+.cta-card {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: #FFF;
+  border-radius: var(--radius);
+  padding: 24px 20px;
+  box-shadow: var(--shadow-lg);
+  cursor: pointer;
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.cta-card:active { transform: scale(0.97); }
+.cta-card::after {
+  content: ''; position: absolute; right: -30px; top: -30px;
+  width: 120px; height: 120px; background: rgba(255,255,255,0.06); border-radius: 50%;
+}
+.cta-card .cta-icon { font-size: 36px; margin-bottom: 10px; }
+.cta-card .cta-title {
+  font-family: var(--font-serif);
+  font-size: 20px; font-weight: 700; margin-bottom: 6px;
+}
+.cta-card .cta-sub {
+  font-size: 13px; opacity: 0.85; line-height: 1.5; margin-bottom: 12px;
+}
+.cta-card .cta-meta {
+  display: flex; gap: 16px; font-size: 12px; opacity: 0.75;
+}
+.cta-card .cta-meta span { display: flex; align-items: center; gap: 4px; }
+
+/* Key Metrics Row */
+.metrics-row {
+  display: flex; gap: 8px;
+}
+.metric-item {
+  flex: 1; background: var(--bg-secondary); border: none;
+  border-radius: var(--radius-xs); padding: 10px 8px;
+  text-align: center; cursor: pointer; transition: all var(--transition);
+}
+.metric-item:active { transform: scale(0.97); }
+.metric-item .metric-val {
+  font-family: var(--font-serif); font-size: 18px; font-weight: 700;
+}
+.metric-item .metric-label { font-size: 10px; color: var(--text-secondary); margin-top: 1px; }
+.metric-item .metric-trend { font-size: 10px; margin-top: 1px; }
+.metric-item.warn .metric-val { color: var(--warning); }
+.metric-item.good .metric-val { color: var(--success); }
+.metric-item.neutral .metric-val { color: var(--text); }
+.metric-trend.up { color: var(--success); }
+.metric-trend.down { color: var(--error); }
+
+/* AI Insight Row */
+.insight-row {
+  background: var(--warning-bg);
+  border: 1px solid var(--warning);
+  border-left: 3px solid var(--warning);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  display: flex; align-items: center; gap: 10px;
+  cursor: pointer; transition: all var(--transition);
+}
+.insight-row:active { transform: scale(0.98); }
+.insight-row .insight-icon { font-size: 20px; flex-shrink: 0; }
+.insight-row .insight-text { font-size: 13px; color: var(--text); line-height: 1.5; flex: 1; }
+.insight-row .insight-arrow { color: var(--warning); font-size: 14px; }
+
+/* Subject Quick Access */
+.subject-strip {
+  display: flex; flex-wrap: wrap; gap: 8px; padding: 2px 0;
+}
+.subject-pill {
+  flex: 1 1 calc(50% - 4px); min-width: 0;
+  padding: 10px 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 500; color: var(--text);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.subject-pill:active { transform: scale(0.95); }
+.subject-pill .pill-icon { font-size: 18px; }
+.subject-pill .pill-stat { font-size: 11px; color: var(--text-secondary); }
+
+/* ====== CARD ====== */
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+.section-title {
+  font-family: var(--font-serif);
+  font-size: 16px; font-weight: 600; color: var(--text);
+}
+
+/* ====== FLASHCARD v1.2: Swipe Gestures ====== */
+.flashcard-container {
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+  padding: 6px 0; user-select: none; -webkit-user-select: none;
+  touch-action: pan-y;
+}
+.flashcard-header {
+  width: 100%; display: flex; justify-content: space-between; align-items: center;
+  font-size: 13px; color: var(--text-secondary);
+}
+.flashcard-progress {
+  width: 100%; height: 4px; background: var(--bg-secondary);
+  border-radius: 2px; overflow: hidden;
+}
+.flashcard-progress-fill {
+  height: 100%; background: var(--primary); border-radius: 2px; transition: width 0.3s;
+}
+
+.flashcard-zone {
+  width: 100%; height: 300px; position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+.flashcard {
+  width: 100%; height: 100%;
+  perspective: 1000px;
+  position: relative;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.flashcard.swiping-left { transform: translateX(-60px) rotate(-5deg); opacity: 0.8; }
+.flashcard.swiping-right { transform: translateX(60px) rotate(5deg); opacity: 0.8; }
+.flashcard.swiping-up { transform: translateY(-40px) scale(0.95); opacity: 0.7; }
+.flashcard.swipe-out-left { transform: translateX(-120%) rotate(-15deg); opacity: 0; }
+.flashcard.swipe-out-right { transform: translateX(120%) rotate(15deg); opacity: 0; }
+.flashcard.swipe-out-up { transform: translateY(-200px) scale(0.8); opacity: 0; }
+
+.flashcard-inner {
+  width: 100%; height: 100%;
+  position: relative;
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+.flashcard-inner.flipped { transform: rotateY(180deg); }
+
+.flashcard-front, .flashcard-back {
+  position: absolute; width: 100%; height: 100%;
+  backface-visibility: hidden;
+  border-radius: var(--radius);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 24px; text-align: center;
+  box-shadow: var(--shadow-lg);
+}
+.flashcard-front {
+  background: var(--bg-card); border: 1px solid var(--border);
+}
+.flashcard-back {
+  background: var(--primary); color: #FFF;
+  transform: rotateY(180deg);
+}
+.flashcard-front .card-tag {
+  font-size: 12px; color: var(--accent); font-weight: 600;
+  letter-spacing: 0.05em; margin-bottom: 14px;
+}
+.flashcard-front .card-question {
+  font-family: var(--font-serif); font-size: 18px; font-weight: 600;
+  color: var(--text); line-height: 1.7;
+}
+.flashcard-front .card-hint {
+  font-size: 12px; color: var(--text-tertiary); margin-top: 18px;
+}
+.flashcard-back .card-answer {
+  font-family: var(--font-serif); font-size: 16px; font-weight: 500; line-height: 1.7;
+}
+
+/* Swipe hint indicators */
+.swipe-hints {
+  display: flex; justify-content: space-between; width: 100%;
+  padding: 0 10px;
+  font-size: 11px; color: var(--text-tertiary);
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.swipe-hints span { display: flex; align-items: center; gap: 4px; }
+.swipe-hint-left { color: var(--error); }
+.swipe-hint-right { color: var(--success); }
+
+/* Rating buttons - kept as fallback */
+.rating-buttons {
+  display: flex; gap: 8px; width: 100%;
+}
+.rating-btn {
+  flex: 1; padding: 10px 6px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border); background: var(--bg-card);
+  cursor: pointer; transition: all var(--transition);
+  font-family: var(--font-sans); font-size: 12px; font-weight: 500;
+  color: var(--text); display: flex; flex-direction: column; align-items: center; gap: 3px;
+}
+.rating-btn:active { transform: scale(0.95); }
+.rating-btn .emoji { font-size: 20px; }
+.rating-btn .interval { font-size: 10px; color: var(--text-tertiary); }
+.rating-btn.hard:active { background: #FDE8E8; border-color: var(--error); }
+.rating-btn.medium:active { background: #FDF3E5; border-color: var(--warning); }
+.rating-btn.easy:active { background: #E5F5E8; border-color: var(--success); }
+
+/* ====== QUIZ ====== */
+.quiz-header {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;
+}
+.quiz-progress-text { font-size: 13px; color: var(--text-secondary); font-weight: 500; }
+.quiz-timer { font-family: var(--font-serif); font-size: 15px; font-weight: 600; color: var(--primary); }
+.quiz-type-badge {
+  font-size: 11px; padding: 3px 10px; border-radius: 10px;
+  background: var(--bg-secondary); color: var(--text-secondary); font-weight: 500;
+}
+.quiz-question {
+  font-family: var(--font-serif); font-size: 16px; font-weight: 600;
+  color: var(--text); line-height: 1.7; margin-bottom: 14px;
+}
+.option-list { display: flex; flex-direction: column; gap: 8px; }
+.option-item {
+  padding: 12px 14px; border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm); font-size: 14px; color: var(--text);
+  cursor: pointer; transition: all var(--transition); background: var(--bg-card);
+  display: flex; align-items: flex-start; gap: 10px; line-height: 1.5;
+}
+.option-item:active { transform: scale(0.98); }
+.option-item.selected { border-color: var(--primary); background: #FBF5F5; }
+.option-item.correct { border-color: var(--success); background: var(--success-bg); color: var(--success); }
+.option-item.wrong { border-color: var(--error); background: var(--error-bg); color: var(--error); }
+.option-letter {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--bg-secondary); display: flex; align-items: center;
+  justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0;
+}
+.option-item.selected .option-letter { background: var(--primary); color: #FFF; }
+.option-item.correct .option-letter { background: var(--success); color: #FFF; }
+.option-item.wrong .option-letter { background: var(--error); color: #FFF; }
+
+.quiz-actions { display: flex; gap: 10px; margin-top: 8px; }
+
+.btn {
+  padding: 12px 24px; border-radius: var(--radius-sm);
+  font-family: var(--font-sans); font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: all var(--transition); border: none; text-align: center;
+}
+.btn-primary { background: var(--primary); color: #FFF; flex: 1; }
+.btn-primary:active { background: var(--primary-dark); transform: scale(0.97); }
+.btn-secondary { background: var(--bg-secondary); color: var(--text); flex: 1; }
+.btn-secondary:active { background: var(--border); transform: scale(0.97); }
+.btn-outline { background: transparent; border: 1.5px solid var(--primary); color: var(--primary); }
+.btn-outline:active { background: var(--primary); color: #FFF; }
+
+.result-card {
+  background: var(--bg-card); border-radius: var(--radius);
+  padding: 20px; text-align: center; box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+.result-icon { font-size: 40px; }
+.result-text {
+  font-family: var(--font-serif); font-size: 16px; font-weight: 600; margin-top: 8px;
+}
+.explanation-card {
+  background: var(--bg-secondary); border-radius: var(--radius-sm);
+  padding: 14px; margin-top: 10px;
+}
+.explanation-card .exp-title { font-weight: 600; font-size: 13px; color: var(--text); margin-bottom: 6px; }
+.explanation-card .exp-text { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+.explanation-card .exp-link {
+  display: inline-flex; align-items: center; gap: 4px;
+  margin-top: 8px; font-size: 12px; color: var(--primary); cursor: pointer; font-weight: 500;
+}
+.explanation-card .exp-link:active { opacity: 0.7; }
+
+/* Wrong Book */
+.wrong-item {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 14px; margin-bottom: 8px;
+  cursor: pointer; transition: all var(--transition);
+}
+.wrong-item:active { transform: scale(0.98); }
+.wrong-item .wi-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.wrong-item .wi-tag { font-size: 11px; padding: 2px 8px; border-radius: 10px; background: var(--error-bg); color: var(--error); font-weight: 500; }
+.wrong-item .wi-date { font-size: 11px; color: var(--text-tertiary); }
+.wrong-item .wi-question { font-size: 14px; color: var(--text); font-weight: 500; line-height: 1.5; }
+
+/* Profile */
+.profile-header { text-align: center; padding: 16px 0 8px; }
+.avatar {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; margin: 0 auto 10px; color: #FFF;
+}
+.profile-name { font-family: var(--font-serif); font-size: 18px; font-weight: 600; color: var(--text); }
+.profile-sub { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+
+.stat-cards {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 10px 0;
+}
+.stat-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 12px 6px; text-align: center;
+}
+.stat-card .sc-val { font-family: var(--font-serif); font-size: 20px; font-weight: 700; color: var(--primary); }
+.stat-card .sc-label { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+
+.menu-list {
+  background: var(--bg-card); border-radius: var(--radius);
+  border: 1px solid var(--border); overflow: hidden;
+}
+.menu-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px; cursor: pointer; transition: all var(--transition);
+  border-bottom: 1px solid var(--border);
+}
+.menu-item:last-child { border-bottom: none; }
+.menu-item:active { background: var(--bg-secondary); }
+.menu-item .mi-left { display: flex; align-items: center; gap: 12px; }
+.menu-item .mi-icon { font-size: 20px; width: 28px; text-align: center; }
+.menu-item .mi-label { font-size: 14px; font-weight: 500; color: var(--text); }
+.menu-item .mi-badge { font-size: 11px; padding: 2px 8px; border-radius: 10px; background: var(--warning-bg); color: var(--warning); }
+.menu-item .mi-arrow { color: var(--text-tertiary); font-size: 14px; }
+
+/* Toggle Switch */
+.toggle-switch {
+  width: 44px; height: 24px; border-radius: 12px;
+  background: var(--border); position: relative; cursor: pointer;
+  transition: all var(--transition); flex-shrink: 0;
+}
+.toggle-switch span {
+  position: absolute; top: 2px; left: 2px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: #FFF; box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  transition: all var(--transition);
+}
+
+/* Onboarding */
+.onboarding {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; text-align: center;
+  padding: 30px 20px; gap: 20px; height: 100%;
+}
+.onboarding .on-icon { font-size: 56px; }
+.onboarding .on-title { font-family: var(--font-serif); font-size: 22px; font-weight: 700; color: var(--text); }
+.onboarding .on-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.6; max-width: 280px; }
+
+.style-options { display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 280px; }
+.style-option {
+  padding: 12px 14px; border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm); text-align: left; cursor: pointer;
+  transition: all var(--transition); background: var(--bg-card);
+  font-family: var(--font-sans); font-size: 13px; color: var(--text);
+}
+.style-option:active { transform: scale(0.98); }
+.style-option.selected { border-color: var(--primary); background: #FBF5F5; }
+.style-option .so-title { font-weight: 600; margin-bottom: 2px; }
+.style-option .so-desc { font-size: 11px; color: var(--text-secondary); }
+
+.time-select {
+  display: flex; gap: 8px; width: 100%; max-width: 280px; flex-wrap: wrap;
+}
+.time-chip {
+  padding: 8px 14px; border: 1.5px solid var(--border);
+  border-radius: 20px; font-size: 13px; cursor: pointer;
+  transition: all var(--transition); background: var(--bg-card);
+  color: var(--text-secondary); font-weight: 500;
+}
+.time-chip:active { transform: scale(0.95); }
+.time-chip.selected { border-color: var(--primary); background: #FBF5F5; color: var(--primary); }
+
+/* Theme */
+.theme-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.theme-card {
+  border: 2px solid var(--border); border-radius: var(--radius);
+  padding: 14px; cursor: pointer; transition: all var(--transition); text-align: center;
+}
+.theme-card:active { transform: scale(0.97); }
+.theme-card.selected { border-color: var(--primary); }
+.theme-preview { height: 40px; border-radius: 6px; margin-bottom: 8px; }
+.theme-preview.light { background: linear-gradient(135deg, #FBF7F0, #FFFFFF); border: 1px solid #E8DCC8; }
+.theme-preview.dark { background: linear-gradient(135deg, #1A1410, #241C16); border: 1px solid #3A2E20; }
+.theme-preview.eye { background: linear-gradient(135deg, #E8F0E0, #F2F7EE); border: 1px solid #C8D5BE; }
+.theme-card .tc-name { font-size: 13px; font-weight: 600; color: var(--text); }
+
+/* Chip */
+.chip-row { display: flex; flex-wrap: wrap; gap: 8px; padding: 4px 0; }
+.chip {
+  padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 500;
+  white-space: nowrap; cursor: pointer; transition: all var(--transition);
+  border: 1px solid var(--border); background: var(--bg-card);
+  color: var(--text-secondary); font-family: var(--font-sans);
+}
+.chip.active { background: var(--primary); color: #FFF; border-color: var(--primary); }
+.chip:active { transform: scale(0.95); }
+
+/* Chapter list */
+.chapter-item {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 14px;
+  display: flex; align-items: center; gap: 12px;
+  cursor: pointer; transition: all var(--transition);
+  margin-bottom: 8px;
+}
+.chapter-item:active { transform: scale(0.98); }
+.chapter-item .ch-num {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--bg-secondary); display: flex; align-items: center;
+  justify-content: center; font-size: 13px; font-weight: 600; color: var(--text-secondary);
+  flex-shrink: 0;
+}
+.chapter-item .ch-info { flex: 1; }
+.chapter-item .ch-name { font-size: 14px; font-weight: 500; color: var(--text); }
+.chapter-item .ch-meta { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+.chapter-item .ch-arrow { color: var(--text-tertiary); }
+
+/* Empty state */
+.empty-state { text-align: center; padding: 40px 20px; }
+.empty-state .empty-icon { font-size: 48px; margin-bottom: 12px; }
+.empty-state .empty-text { font-size: 14px; color: var(--text-secondary); }
+.empty-state .empty-action { margin-top: 12px; }
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 120px; left: 50%; transform: translateX(-50%);
+  background: var(--text); color: var(--bg); padding: 10px 20px;
+  border-radius: 20px; font-size: 13px; font-weight: 500;
+  z-index: 200; white-space: nowrap;
+  animation: toastIn 0.3s ease, toastOut 0.3s ease 1.7s forwards;
+}
+@keyframes toastIn { from { opacity: 0; transform: translateX(-50%) translateY(10px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+@keyframes toastOut { from { opacity: 1; } to { opacity: 0; } }
+
+/* Dialog */
+.dialog-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100; animation: fadeIn 0.2s ease;
+}
+.dialog {
+  background: var(--bg-card); border-radius: var(--radius);
+  padding: 24px; width: 300px; text-align: center;
+  box-shadow: var(--shadow-lg);
+  animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.dialog .d-title { font-family: var(--font-serif); font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+.dialog .d-desc { font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.5; }
+.dialog-actions { display: flex; gap: 10px; justify-content: center; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Bottom sheet */
+.bottom-sheet {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: var(--bg-card); border-radius: 20px 20px 0 0;
+  padding: 20px 16px 30px; box-shadow: 0 -4px 24px rgba(0,0,0,0.15);
+  z-index: 50; display: none;
+  animation: sheetUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.bottom-sheet.show { display: block; }
+.bottom-sheet .sheet-handle { width: 40px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 16px; }
+@keyframes sheetUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+/* Screen transition */
+.screen { animation: fadeSlideIn 0.3s ease; }
+@keyframes fadeSlideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Responsive */
+@media (max-width: 430px) {
+  .phone-frame { width: 100%; height: 100vh; border-radius: 0; }
+  body { padding: 0; }
+}
+
+/* Progress bar */
+.progress-bar { height: 6px; background: var(--bg-secondary); border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--primary); border-radius: 3px; transition: width 0.6s ease; }
+
+/* Quick actions */
+.quick-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.quick-action {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px; cursor: pointer;
+  transition: all var(--transition); display: flex; flex-direction: column; gap: 6px;
+}
+.quick-action:active { transform: scale(0.97); background: var(--bg-secondary); }
+.quick-action .qa-icon { font-size: 28px; }
+.quick-action .qa-label { font-family: var(--font-serif); font-size: 15px; font-weight: 600; color: var(--text); }
+.quick-action .qa-sub { font-size: 12px; color: var(--text-secondary); }
+
+/* Subject grid */
+.subject-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.subject-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px; cursor: pointer;
+  transition: all var(--transition);
+}
+.subject-card:active { transform: scale(0.97); }
+.subject-card .sub-icon { font-size: 32px; margin-bottom: 8px; }
+.subject-card .sub-name { font-family: var(--font-serif); font-size: 15px; font-weight: 600; color: var(--text); }
+.subject-card .sub-count { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+.subject-card .sub-progress { margin-top: 8px; height: 4px; background: var(--bg-secondary); border-radius: 2px; overflow: hidden; }
+.subject-card .sub-fill { height: 100%; background: var(--primary); border-radius: 2px; }
+
+/* Streak */
+.streak-row {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 13px; color: var(--text-secondary); margin-bottom: 10px;
+}
+.streak-row .streak-icon { font-size: 16px; }
+
+/* ====== V1.3: SEARCH OVERLAY ====== */
+.search-overlay {
+  position: absolute; inset: 0; background: var(--bg);
+  z-index: 60; display: none; flex-direction: column;
+  padding: 16px;
+}
+.search-overlay.show { display: flex; }
+.search-bar {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--bg-card); border: 1.5px solid var(--primary);
+  border-radius: var(--radius-sm); padding: 10px 14px;
+}
+.search-bar input {
+  flex: 1; border: none; outline: none; background: none;
+  font-size: 15px; font-family: var(--font-sans); color: var(--text);
+}
+.search-bar input::placeholder { color: var(--text-tertiary); }
+.search-results { margin-top: 12px; display: flex; flex-direction: column; gap: 8px; }
+.search-result {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 14px;
+  cursor: pointer; transition: all var(--transition);
+  display: flex; align-items: center; gap: 12px;
+}
+.search-result:active { transform: scale(0.98); }
+.search-result .sr-icon { font-size: 24px; width: 36px; text-align: center; }
+.search-result .sr-info { flex: 1; }
+.search-result .sr-title { font-size: 14px; font-weight: 600; color: var(--text); }
+.search-result .sr-sub { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+.search-result .sr-badge {
+  font-size: 10px; padding: 2px 8px; border-radius: 10px;
+  background: var(--bg-secondary); color: var(--text-secondary);
+}
+
+/* ====== V1.3: STATS ====== */
+.stats-section {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px; margin-bottom: 12px;
+}
+.stats-section .stats-title {
+  font-family: var(--font-serif); font-size: 15px; font-weight: 600;
+  color: var(--text); margin-bottom: 12px;
+}
+.chart-container { width: 100%; height: 180px; position: relative; }
+.chart-container svg { width: 100%; height: 100%; }
+
+/* Radar chart */
+.radar-container { width: 100%; height: 220px; position: relative; }
+.radar-container svg { width: 100%; height: 100%; }
+
+/* Stat legend */
+.stat-legend { display: flex; gap: 16px; justify-content: center; margin-top: 8px; }
+.stat-legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-secondary); }
+.stat-legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* ====== V1.3: FAVORITES ====== */
+.fav-item {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 14px;
+  margin-bottom: 8px; cursor: pointer; transition: all var(--transition);
+  display: flex; align-items: center; gap: 12px;
+}
+.fav-item:active { transform: scale(0.98); }
+.fav-item .fav-star { color: var(--accent); font-size: 18px; flex-shrink: 0; }
+.fav-item .fav-info { flex: 1; }
+.fav-item .fav-title { font-size: 14px; font-weight: 500; color: var(--text); }
+.fav-item .fav-meta { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+.fav-item .fav-arrow { color: var(--text-tertiary); }
+
+/* ====== V1.3: AI PORTRAIT ====== */
+.portrait-header {
+  text-align: center; padding: 20px 0 10px;
+}
+.portrait-avatar {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px; margin: 0 auto 12px; color: #FFF;
+}
+.portrait-tagline { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+
+.trait-list { display: flex; flex-direction: column; gap: 8px; }
+.trait-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px; background: var(--bg-card);
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+}
+.trait-item .trait-icon { font-size: 22px; flex-shrink: 0; }
+.trait-item .trait-info { flex: 1; }
+.trait-item .trait-label { font-size: 13px; font-weight: 500; color: var(--text); }
+.trait-item .trait-value { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+.trait-item .trait-bar {
+  width: 60px; height: 6px; background: var(--bg-secondary);
+  border-radius: 3px; overflow: hidden; flex-shrink: 0;
+}
+.trait-item .trait-fill { height: 100%; border-radius: 3px; }
+.trait-fill.high { background: var(--success); }
+.trait-fill.medium { background: var(--warning); }
+.trait-fill.low { background: var(--error); }
+
+/* ====== V1.3: AUDIO MODE ====== */
+.audio-mode-card {
+  background: linear-gradient(135deg, #2C1810, #5A1E25);
+  color: #FFF; border-radius: var(--radius); padding: 24px 20px;
+  text-align: center; margin-bottom: 12px;
+}
+.audio-mode-card .am-icon { font-size: 48px; margin-bottom: 12px; }
+.audio-mode-card .am-title { font-family: var(--font-serif); font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+.audio-mode-card .am-sub { font-size: 13px; opacity: 0.8; line-height: 1.5; }
+.audio-mode-card .am-badge {
+  display: inline-block; margin-top: 10px; padding: 4px 12px;
+  background: rgba(255,255,255,0.15); border-radius: 12px;
+  font-size: 11px;
+}
+
+.audio-playlist { display: flex; flex-direction: column; gap: 8px; }
+.audio-track {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 14px;
+  cursor: pointer; transition: all var(--transition);
+  display: flex; align-items: center; gap: 12px;
+}
+.audio-track:active { transform: scale(0.98); }
+.audio-track.playing { border-color: var(--primary); background: #FBF5F5; }
+.audio-track .at-play { font-size: 20px; flex-shrink: 0; }
+.audio-track .at-info { flex: 1; }
+.audio-track .at-title { font-size: 14px; font-weight: 500; color: var(--text); }
+.audio-track .at-meta { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+
+/* Mini player */
+.audio-mini {
+  position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
+  width: calc(100% - 32px); max-width: 358px;
+  background: var(--primary); color: #FFF;
+  border-radius: 20px; padding: 12px 16px;
+  display: none; align-items: center; gap: 12px;
+  z-index: 55; box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  animation: sheetUp 0.3s ease;
+}
+.audio-mini.show { display: flex; }
+.audio-mini .mini-info { flex: 1; font-size: 12px; }
+.audio-mini .mini-title { font-weight: 600; }
+.audio-mini .mini-btn { font-size: 20px; cursor: pointer; }
+.audio-mini .mini-close { font-size: 14px; cursor: pointer; opacity: 0.7; }
+
+/* ====== V1.3: DAILY REPORT ====== */
+.report-dialog {
+  background: var(--bg-card); border-radius: var(--radius);
+  padding: 28px 24px; width: 320px; text-align: center;
+  box-shadow: var(--shadow-lg);
+  animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.report-dialog .rd-icon { font-size: 48px; margin-bottom: 12px; }
+.report-dialog .rd-title { font-family: var(--font-serif); font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.report-dialog .rd-stats { margin: 16px 0; display: flex; justify-content: center; gap: 20px; }
+.report-dialog .rd-stat { text-align: center; }
+.report-dialog .rd-stat .rds-val { font-family: var(--font-serif); font-size: 22px; font-weight: 700; color: var(--primary); }
+.report-dialog .rd-stat .rds-label { font-size: 11px; color: var(--text-secondary); }
+.report-dialog .rd-encourage { font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin: 8px 0 16px; }
+</style>
+</head>
+<body>
+
+<div class="phone-frame" id="app" data-theme="light">
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span id="timeGreeting">晚间</span>
+    <span>
+      <span class="offline-badge" id="offlineBadge">📡 离线</span>
+      📶 🔋
+    </span>
+  </div>
+
+  <!-- App Header -->
+  <div class="app-header">
+    <span class="logo">法学记忆</span>
+    <div class="header-actions">
+      <button class="icon-btn" onclick="showToast('📬 暂无新消息，专注学习吧')" title="通知">🔔</button>
+      <button class="icon-btn" onclick="openSearch()" title="搜索">🔍</button>
+    </div>
+  </div>
+
+  <!-- Page Content -->
+  <div class="page-content" id="pageContent">
+
+    <!-- ==================== HOME SCREEN v1.2 ==================== -->
+    <div class="screen active" id="screen-home">
+      <div class="greeting-row">
+        <div>
+          <div class="greeting">晚上好，小明</div>
+          <div class="streak-row">
+            <span class="streak-icon">🔥</span>
+            <span>累计学习 <strong>67</strong> 天 · 今日已学 <strong>12</strong> 分钟</span>
+            <span style="margin-left:6px;font-size:11px;color:var(--warning);font-weight:500;">明天别断哦</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAIN CTA: One Big Button -->
+      <div class="cta-card" onclick="resumeLearning()">
+        <div class="cta-icon">📖</div>
+        <div class="cta-title">继续学习</div>
+        <div class="cta-sub">法理学 · 第3章 法的本质与特征<br>上次学到第 12/45 张卡片</div>
+        <div class="cta-meta">
+          <span>⏱️ 预计 4 分钟</span>
+          <span>📊 本章掌握 27%</span>
+        </div>
+      </div>
+
+      <!-- Key Metrics: 3 Numbers -->
+      <div class="metrics-row">
+        <div class="metric-item warn" onclick="showInsightDetail()">
+          <div class="metric-val">2</div>
+          <div class="metric-label">薄弱知识点</div>
+          <div class="metric-trend down">待突破</div>
+        </div>
+        <div class="metric-item neutral" onclick="switchTab('wrongbook')">
+          <div class="metric-val">3</div>
+          <div class="metric-label">错题待复习</div>
+          <div class="metric-trend" style="color:var(--text-tertiary);">上次 7/10</div>
+        </div>
+        <div class="metric-item good" onclick="switchTab('profile')">
+          <div class="metric-val">68%</div>
+          <div class="metric-label">本周正确率</div>
+          <div class="metric-trend up">↗ 3%</div>
+        </div>
+      </div>
+
+      <!-- AI Insight -->
+      <div class="insight-row" onclick="showInsightDetail()">
+        <div class="insight-icon">⚡</div>
+        <div class="insight-text">
+          <strong>刑法 · 正当防卫</strong> 连续答错 3 次，建议专项突破
+        </div>
+        <div class="insight-arrow">→</div>
+      </div>
+
+      <!-- Subject Quick Access -->
+      <div class="section-title" style="margin-top:4px;">📚 快速切换科目</div>
+      <div class="subject-strip">
+        <div class="subject-pill" onclick="showChapterList('法理学')">
+          <span class="pill-icon">⚖️</span><span>法理学</span>
+          <span class="pill-stat">60%</span>
+        </div>
+        <div class="subject-pill" onclick="showChapterList('宪法学')">
+          <span class="pill-icon">🏛️</span><span>宪法学</span>
+          <span class="pill-stat">42%</span>
+        </div>
+        <div class="subject-pill" onclick="showChapterList('刑法')">
+          <span class="pill-icon">🔨</span><span>刑法</span>
+          <span class="pill-stat">39%</span>
+        </div>
+        <div class="subject-pill" onclick="showChapterList('民法')">
+          <span class="pill-icon">💼</span><span>民法</span>
+          <span class="pill-stat">30%</span>
+        </div>
+        <div class="subject-pill" onclick="showChapterList('法制史')">
+          <span class="pill-icon">📜</span><span>法制史</span>
+          <span class="pill-stat">30%</span>
+        </div>
+      </div>
+
+      <!-- Daily Report Entry -->
+      <div class="insight-row" onclick="showDailyReport()" style="border-left-color:var(--primary);margin-top:4px;">
+        <div class="insight-icon">📋</div>
+        <div class="insight-text">
+          <strong>今日学习报告</strong> · 已学 12 分钟 · 15 张卡片
+        </div>
+        <div class="insight-arrow" style="color:var(--primary);">→</div>
+      </div>
+    </div>
+
+    <!-- ==================== CHAPTER LIST SCREEN ==================== -->
+    <div class="screen" id="screen-chapters">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+        <div class="section-title" id="chSubjectTitle">法理学 · 章节列表</div>
+        <button class="btn btn-outline" style="padding:6px 14px;font-size:12px;" onclick="switchTab('home')">← 返回</button>
+      </div>
+      <div class="chapter-item" onclick="showFlashcard('法理学','第1章 法学导论')">
+        <div class="ch-num">✓</div>
+        <div class="ch-info"><div class="ch-name">第1章 法学导论</div><div class="ch-meta">12 张卡片 · 已掌握</div></div>
+        <div class="ch-arrow">→</div>
+      </div>
+      <div class="chapter-item" onclick="showFlashcard('法理学','第2章 法的概念与本质')">
+        <div class="ch-num">✓</div>
+        <div class="ch-info"><div class="ch-name">第2章 法的概念与本质</div><div class="ch-meta">18 张卡片 · 已掌握</div></div>
+        <div class="ch-arrow">→</div>
+      </div>
+      <div class="chapter-item" onclick="showFlashcard('法理学','第3章 法的本质与特征')" style="border-color:var(--primary);">
+        <div class="ch-num" style="background:var(--primary);color:#FFF;">3</div>
+        <div class="ch-info"><div class="ch-name">第3章 法的本质与特征</div><div class="ch-meta">45 张卡片 · ⏱️ 预计 8 分钟 · 掌握 27%</div></div>
+        <div class="ch-arrow">→</div>
+      </div>
+      <div class="chapter-item" onclick="showToast('🔒 先完成第3章，解锁更多内容')">
+        <div class="ch-num">4</div>
+        <div class="ch-info"><div class="ch-name">第4章 法的作用与价值</div><div class="ch-meta">30 张卡片 · ⏱️ 预计 5 分钟</div></div>
+        <div class="ch-arrow">🔒</div>
+      </div>
+      <div class="chapter-item" onclick="showToast('🔒 先完成第3章，解锁更多内容')">
+        <div class="ch-num">5</div>
+        <div class="ch-info"><div class="ch-name">第5章 法律渊源与效力</div><div class="ch-meta">24 张卡片 · ⏱️ 预计 4 分钟</div></div>
+        <div class="ch-arrow">🔒</div>
+      </div>
+    </div>
+
+    <!-- ==================== MEMORY SCREEN ==================== -->
+    <div class="screen" id="screen-memory">
+      <div class="section-title">选择科目</div>
+      <div class="subject-grid">
+        <div class="subject-card" onclick="showChapterList('法理学')">
+          <div class="sub-icon">⚖️</div>
+          <div class="sub-name">法理学</div>
+          <div class="sub-count">今日待复习 12 张 · ⏱️ 4分钟</div>
+          <div class="sub-progress"><div class="sub-fill" style="width:60%"></div></div>
+        </div>
+        <div class="subject-card" onclick="showChapterList('宪法学')">
+          <div class="sub-icon">🏛️</div>
+          <div class="sub-name">宪法学</div>
+          <div class="sub-count">今日待复习 18 张 · ⏱️ 6分钟</div>
+          <div class="sub-progress"><div class="sub-fill" style="width:42%"></div></div>
+        </div>
+        <div class="subject-card" onclick="showChapterList('法制史')">
+          <div class="sub-icon">📜</div>
+          <div class="sub-name">法制史</div>
+          <div class="sub-count">今日待复习 8 张 · ⏱️ 3分钟</div>
+          <div class="sub-progress"><div class="sub-fill" style="width:30%"></div></div>
+        </div>
+        <div class="subject-card" onclick="showChapterList('刑法')">
+          <div class="sub-icon">🔨</div>
+          <div class="sub-name">刑法</div>
+          <div class="sub-count">今日待复习 22 张 · ⏱️ 7分钟</div>
+          <div class="sub-progress"><div class="sub-fill" style="width:39%"></div></div>
+        </div>
+        <div class="subject-card" onclick="showChapterList('民法')">
+          <div class="sub-icon">💼</div>
+          <div class="sub-name">民法</div>
+          <div class="sub-count">今日待复习 15 张 · ⏱️ 5分钟</div>
+          <div class="sub-progress"><div class="sub-fill" style="width:30%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== FLASHCARD SCREEN v1.2 ==================== -->
+    <div class="screen" id="screen-flashcard">
+      <div class="flashcard-container">
+        <div class="flashcard-header">
+          <button class="btn btn-outline" style="padding:6px 14px;font-size:12px;" onclick="confirmExitFlashcard()">← 暂存进度</button>
+          <span id="fcSubject">法理学 · 第3章</span>
+          <div style="text-align:right;">
+            <span id="fcProgress">12/45</span>
+            <span id="fcRemaining" style="font-size:10px;color:var(--text-tertiary);display:block;">还剩 33 张</span>
+          </div>
+        </div>
+        <div class="flashcard-progress">
+          <div class="flashcard-progress-fill" id="fcProgressBar" style="width:27%"></div>
+        </div>
+        <div class="swipe-hints" id="swipeHints" style="display:flex;">
+          <span class="swipe-hint-left">← 左滑：需要巩固</span>
+          <span style="color:var(--text-tertiary);">上滑：跳过</span>
+          <span class="swipe-hint-right">熟练 →</span>
+        </div>
+        <div class="flashcard-zone" id="flashcardZone">
+          <div class="flashcard" id="flashcardEl" onclick="flipCard()">
+            <div class="flashcard-inner" id="flashcardInner">
+              <div class="flashcard-front">
+                <div class="card-tag">法理学 · 法的本质</div>
+                <div class="card-question">法的基本特征包括哪些？请列举并简要说明。</div>
+                <div class="card-hint">👆 点击翻转 · 或翻转后滑动评分</div>
+              </div>
+              <div class="flashcard-back">
+                <div class="card-answer">
+                  1. <strong>规范性</strong>：法是调整人们行为的社会规范<br><br>
+                  2. <strong>国家意志性</strong>：法由国家制定或认可<br><br>
+                  3. <strong>国家强制性</strong>：以国家强制力保证实施<br><br>
+                  4. <strong>普遍性</strong>：对全体社会成员普遍适用<br><br>
+                  5. <strong>程序性</strong>：法的制定和实施遵循法定程序
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="rating-buttons" id="ratingButtons" style="display:none;">
+          <button class="rating-btn hard" onclick="rateCard('hard')">
+            <span class="emoji">📝</span><span>需要巩固</span>
+            <span class="interval">明天再出现</span>
+          </button>
+          <button class="rating-btn medium" onclick="rateCard('medium')">
+            <span class="emoji">🤔</span><span>基本掌握</span>
+            <span class="interval">2天后出现</span>
+          </button>
+          <button class="rating-btn easy" onclick="rateCard('easy')">
+            <span class="emoji">✅</span><span>已掌握</span>
+            <span class="interval">7天后出现</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== QUIZ SCREEN ==================== -->
+    <div class="screen" id="screen-quiz">
+      <div class="section-title">选择练习科目</div>
+      <div class="chip-row" style="margin-bottom:12px;">
+        <span class="chip active" onclick="selectQuizFilter(this)">全部</span>
+        <span class="chip" onclick="selectQuizFilter(this)">法理学</span>
+        <span class="chip" onclick="selectQuizFilter(this)">宪法学</span>
+        <span class="chip" onclick="selectQuizFilter(this)">刑法</span>
+        <span class="chip" onclick="selectQuizFilter(this)">民法</span>
+        <span class="chip" onclick="selectQuizFilter(this)">法制史</span>
+      </div>
+
+      <div class="quick-actions">
+        <div class="quick-action" onclick="startQuiz()">
+          <span class="qa-icon">🎯</span>
+          <span class="qa-label">章节练习</span>
+          <span class="qa-sub">按章节循序渐进 · ⏱️ 5-10分钟</span>
+        </div>
+        <div class="quick-action" onclick="showWrongBook()">
+          <span class="qa-icon">📝</span>
+          <span class="qa-label">错题本</span>
+          <span class="qa-sub">3 道待复习 · ⏱️ 2分钟</span>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:4px;">
+        <div class="section-title">📈 答题统计</div>
+        <div style="display:flex;justify-content:space-around;margin-top:12px;">
+          <div style="text-align:center;">
+            <div style="font-family:var(--font-serif);font-size:20px;font-weight:600;color:var(--text);">328</div>
+            <div style="font-size:11px;color:var(--text-secondary);">总答题数</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-family:var(--font-serif);font-size:20px;font-weight:600;color:var(--success);">68%</div>
+            <div style="font-size:11px;color:var(--text-secondary);">正确率 ↗3%</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-family:var(--font-serif);font-size:20px;font-weight:600;color:var(--warning);">3</div>
+            <div style="font-size:11px;color:var(--text-secondary);">待复习错题</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== QUIZ PLAY SCREEN ==================== -->
+    <div class="screen" id="screen-quiz-play">
+      <div class="quiz-header">
+        <button class="btn btn-outline" style="padding:6px 14px;font-size:12px;" onclick="confirmExitQuiz()">暂存进度</button>
+        <span class="quiz-type-badge">单选题</span>
+        <span class="quiz-progress-text">第 <span id="qCurrent">3</span>/<span id="qTotal">20</span> 题</span>
+      </div>
+      <div style="height:4px;background:var(--bg-secondary);border-radius:2px;margin-bottom:12px;">
+        <div style="height:100%;background:var(--primary);border-radius:2px;width:15%;transition:width 0.3s;" id="qProgressBar"></div>
+      </div>
+      <div class="quiz-question" id="qQuestion">关于正当防卫，下列说法正确的是？</div>
+      <div class="option-list" id="optionList">
+        <div class="option-item" onclick="selectOption(this)">
+          <span class="option-letter">A</span>
+          <span>正当防卫不能超过必要限度</span>
+        </div>
+        <div class="option-item" onclick="selectOption(this)">
+          <span class="option-letter">B</span>
+          <span>对正在进行行凶的暴力犯罪，采取防卫行为造成不法侵害人伤亡的，不属于防卫过当</span>
+        </div>
+        <div class="option-item" onclick="selectOption(this)">
+          <span class="option-letter">C</span>
+          <span>正当防卫只能针对正在进行的不法侵害</span>
+        </div>
+        <div class="option-item" onclick="selectOption(this)">
+          <span class="option-letter">D</span>
+          <span>防卫过当应当负刑事责任，但应当减轻或免除处罚</span>
+        </div>
+      </div>
+      <div class="quiz-actions">
+        <button class="btn btn-secondary" onclick="nextQuestion()">跳过</button>
+        <button class="btn btn-primary" id="btnSubmit" onclick="submitAnswer()" disabled>提交答案</button>
+      </div>
+
+      <div id="answerResult" style="display:none;">
+        <div class="result-card" style="margin-top:10px;">
+          <div class="result-icon" id="resultIcon"></div>
+          <div class="result-text" id="resultText"></div>
+        </div>
+        <div class="explanation-card">
+          <div class="exp-title">📖 解析</div>
+          <div class="exp-text" id="expText">
+            根据《刑法》第20条第3款，对正在进行行凶、杀人、抢劫、强奸、绑架以及其他严重危及人身安全的暴力犯罪，采取防卫行为，造成不法侵害人伤亡的，不属于防卫过当，不负刑事责任。这被称为"特殊防卫"或"无限防卫"。
+          </div>
+          <div class="exp-link" onclick="showFlashcard('刑法','第6章 正当防卫与紧急避险'); showToast('📖 已打开相关法条卡片，好好复习')">
+            📖 查看相关法条卡片
+          </div>
+        </div>
+        <button class="btn btn-primary" style="width:100%;margin-top:10px;" onclick="nextQuestion()">下一题 →</button>
+      </div>
+    </div>
+
+    <!-- ==================== WRONG BOOK SCREEN ==================== -->
+    <div class="screen" id="screen-wrongbook">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+        <div class="section-title">📝 错题本</div>
+        <div>
+          <button class="btn btn-outline" style="padding:6px 12px;font-size:12px;margin-right:6px;" onclick="startWrongQuiz()">重做全部</button>
+          <button class="btn btn-outline" style="padding:6px 14px;font-size:12px;" onclick="switchTab('quiz')">← 返回</button>
+        </div>
+      </div>
+      <div class="chip-row" style="margin-bottom:12px;">
+        <span class="chip active" onclick="selectQuizFilter(this)">全部 3</span>
+        <span class="chip" onclick="selectQuizFilter(this)">刑法 2</span>
+        <span class="chip" onclick="selectQuizFilter(this)">民法 1</span>
+      </div>
+
+      <div class="wrong-item" onclick="startQuiz()">
+        <div class="wi-header">
+          <span class="wi-tag">错3次</span>
+          <span class="wi-date">2026-07-10</span>
+        </div>
+        <div class="wi-question">关于正当防卫与紧急避险的区别，下列哪一表述是正确的？</div>
+      </div>
+      <div class="wrong-item" onclick="startQuiz()">
+        <div class="wi-header">
+          <span class="wi-tag">错2次</span>
+          <span class="wi-date">2026-07-09</span>
+        </div>
+        <div class="wi-question">民法中关于诉讼时效中止的情形，下列说法错误的是？</div>
+      </div>
+      <div class="wrong-item" onclick="startQuiz()">
+        <div class="wi-header">
+          <span class="wi-tag">错1次</span>
+          <span class="wi-date">2026-07-08</span>
+        </div>
+        <div class="wi-question">宪法规定的公民基本权利中，属于政治权利和自由的是？</div>
+      </div>
+    </div>
+
+    <!-- ==================== PROFILE SCREEN ==================== -->
+    <div class="screen" id="screen-profile">
+      <div class="profile-header">
+        <div class="avatar">👤</div>
+        <div class="profile-name">小明</div>
+        <div class="profile-sub">目标：北京大学 · 法硕（法学） · 每天可投入 1-2 小时</div>
+      </div>
+
+      <div class="stat-cards">
+        <div class="stat-card">
+          <div class="sc-val">67</div>
+          <div class="sc-label">累计学习天数</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-val">1,280</div>
+          <div class="sc-label">记忆法条数</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-val">68%</div>
+          <div class="sc-label">总正确率</div>
+        </div>
+      </div>
+
+      <div class="menu-list">
+        <div class="menu-item" onclick="switchTab('stats')">
+          <div class="mi-left"><span class="mi-icon">📊</span><span class="mi-label">学习统计</span></div>
+          <span class="mi-arrow">→</span>
+        </div>
+        <div class="menu-item" onclick="switchTab('favorites')">
+          <div class="mi-left"><span class="mi-icon">⭐</span><span class="mi-label">我的收藏</span></div>
+          <span class="mi-badge">5</span>
+          <span class="mi-arrow">→</span>
+        </div>
+        <div class="menu-item" onclick="switchTab('ai-portrait')">
+          <div class="mi-left"><span class="mi-icon">🧬</span><span class="mi-label">AI 学习画像</span></div>
+          <span class="mi-badge">NEW</span>
+          <span class="mi-arrow">→</span>
+        </div>
+        <div class="menu-item" onclick="showStyleSheet()">
+          <div class="mi-left"><span class="mi-icon">🎨</span><span class="mi-label">学习偏好设置</span></div>
+          <span class="mi-arrow">→</span>
+        </div>
+        <div class="menu-item" onclick="showThemeSheet()">
+          <div class="mi-left"><span class="mi-icon">🖼️</span><span class="mi-label">主题切换</span></div>
+          <span class="mi-arrow">→</span>
+        </div>
+        <div class="menu-item" onclick="switchTab('audio')">
+          <div class="mi-left"><span class="mi-icon">🎧</span><span class="mi-label">音频播放</span></div>
+          <span class="mi-badge">通勤必备</span>
+          <span class="mi-arrow">→</span>
+        </div>
+        <div class="menu-item" onclick="switchTab('settings')">
+          <div class="mi-left"><span class="mi-icon">⚙️</span><span class="mi-label">设置</span></div>
+          <span class="mi-arrow">→</span>
+        </div>
+      </div>
+
+      <div style="text-align:center;padding:16px;font-size:11px;color:var(--text-tertiary);">
+        法学记忆 v1.2 · 在职考研专属版
+      </div>
+    </div>
+
+    <!-- ==================== STYLE SHEET ==================== -->
+    <div class="screen" id="screen-style">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        <button class="btn btn-outline" style="padding:6px 14px;font-size:12px;" onclick="switchTab('profile')">← 返回</button>
+        <div class="section-title">选择学习偏好</div>
+      </div>
+      <div style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;line-height:1.5;">
+        选择适合你的学习模式，我们会据此调整内容呈现方式。后续可在"我的"中随时修改。
+      </div>
+      <div class="style-options">
+        <div class="style-option selected" onclick="selectStyle(this, 'visual')">
+          <div class="so-title">👁️ 视觉型</div>
+          <div class="so-desc">偏好图表、颜色编码。法条用颜色区分科目，进度用环形图展示。</div>
+        </div>
+        <div class="style-option" onclick="selectStyle(this, 'logical')">
+          <div class="so-title">🧩 逻辑型</div>
+          <div class="so-desc">偏好结构化推理。法条按"要件-效果-例外"拆解，案例式呈现。</div>
+        </div>
+        <div class="style-option" onclick="selectStyle(this, 'memory')">
+          <div class="so-title">⚡ 速记型</div>
+          <div class="so-desc">偏好关键词、口诀。法条精简为关键词闪卡，极简问答模式。</div>
+        </div>
+      </div>
+      <button class="btn btn-primary" style="width:100%;margin-top:14px;" onclick="saveStyle();switchTab('profile')">保存偏好</button>
+    </div>
+
+    <!-- ==================== THEME SHEET ==================== -->
+    <div class="screen" id="screen-theme">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        <button class="btn btn-outline" style="padding:6px 14px;font-size:12px;" onclick="switchTab('profile')">← 返回</button>
+        <div class="section-title">选择主题</div>
+      </div>
+      <div class="theme-grid">
+        <div class="theme-card selected" onclick="selectTheme('light', this)">
+          <div class="theme-preview light"></div>
+          <div class="tc-name">☀️ 浅色主题</div>
+        </div>
+        <div class="theme-card" onclick="selectTheme('dark', this)">
+          <div class="theme-preview dark"></div>
+          <div class="tc-name">🌙 深色主题</div>
+        </div>
+        <div class="theme-card" onclick="selectTheme('eye-care', this)">
+          <div class="theme-preview eye"></div>
+          <div class="tc-name">🌿 护眼主题</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SETTINGS SCREEN ==================== -->
+    <div class="screen" id="screen-settings">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        <button class="btn btn-outline" style="padding:6px 14px;font-size:12px;" onclick="switchTab('profile')">← 返回</button>
+        <div class="section-title">设置</div>
+      </div>
+
+      <!-- 账号信息 -->
+      <div class="menu-list" style="margin-bottom:12px;">
+        <div class="menu-item" style="cursor:default;">
+          <div class="mi-left"><span class="mi-icon">👤</span><span class="mi-label">账号</span></div>
+          <span style="font-size:13px;color:var(--text-secondary);">138****1234</span>
+        </div>
+        <div class="menu-item" onclick="showToast('📝 昵称修改功能开发中')">
+          <div class="mi-left"><span class="mi-icon">✏️</span><span class="mi-label">修改昵称</span></div>
+          <span style="font-size:13px;color:var(--text-secondary);">小明</span>
+          <span class="mi-arrow">→</span>
+        </div>
+      </div>
+
+      <!-- 学习目标 -->
+      <div class="section-title" style="margin-bottom:8px;">🎯 学习目标</div>
+      <div class="menu-list" style="margin-bottom:12px;">
+        <div class="menu-item" onclick="showToast('⏰ 每日学习时长已更新')">
+          <div class="mi-left"><span class="mi-icon">⏰</span><span class="mi-label">每日学习时长</span></div>
+          <span style="font-size:13px;color:var(--text-secondary);">1-2 小时</span>
+          <span class="mi-arrow">→</span>
+        </div>
+        <div class="menu-item" onclick="showToast('🏫 目标院校已更新')">
+          <div class="mi-left"><span class="mi-icon">🏫</span><span class="mi-label">目标院校</span></div>
+          <span style="font-size:13px;color:var(--text-secondary);">北京大学</span>
+          <span class="mi-arrow">→</span>
+        </div>
+        <div class="menu-item" onclick="showToast('📅 考试日期已更新')">
+          <div class="mi-left"><span class="mi-icon">📅</span><span class="mi-label">考试日期</span></div>
+          <span style="font-size:13px;color:var(--text-secondary);">2026年12月</span>
+          <span class="mi-arrow">→</span>
+        </div>
+      </div>
+
+      <!-- 通知设置 -->
+      <div class="section-title" style="margin-bottom:8px;">🔔 通知提醒</div>
+      <div class="menu-list" style="margin-bottom:12px;">
+        <div class="menu-item">
+          <div class="mi-left"><span class="mi-icon">🌅</span><span class="mi-label">每日学习提醒</span></div>
+          <span class="toggle-switch" id="toggleDaily" onclick="toggleSwitch(this)" style="background:var(--primary);"><span style="left:20px;"></span></span>
+        </div>
+        <div class="menu-item">
+          <div class="mi-left"><span class="mi-icon">🔄</span><span class="mi-label">复习到期提醒</span></div>
+          <span class="toggle-switch" id="toggleReview" onclick="toggleSwitch(this)" style="background:var(--primary);"><span style="left:20px;"></span></span>
+        </div>
+        <div class="menu-item">
+          <div class="mi-left"><span class="mi-icon">📊</span><span class="mi-label">每周学习报告</span></div>
+          <span class="toggle-switch" onclick="toggleSwitch(this)"><span></span></span>
+        </div>
+      </div>
+
+      <!-- 数据管理 -->
+      <div class="section-title" style="margin-bottom:8px;">💾 数据管理</div>
+      <div class="menu-list" style="margin-bottom:12px;">
+        <div class="menu-item" onclick="showToast('🗑️ 缓存已清除')">
+          <div class="mi-left"><span class="mi-icon">🧹</span><span class="mi-label">清除缓存</span></div>
+          <span style="font-size:12px;color:var(--text-tertiary);">12.8 MB</span>
+          <span class="mi-arrow">→</span>
+        </div>
+        <div class="menu-item" onclick="showToast('📤 学习数据已导出')">
+          <div class="mi-left"><span class="mi-icon">📤</span><span class="mi-label">导出学习数据</span></div>
+          <span class="mi-arrow">→</span>
+        </div>
+        <div class="menu-item" onclick="showDialog('⚠️ 重置学习进度', '此操作将清除所有学习记录和进度，无法恢复。确定要继续吗？', [{text: '取消', primary: false, action: closeDialog}, {text: '确认重置', primary: true, action: () => { closeDialog(); showToast('🔄 学习进度已重置'); }}])">
+          <div class="mi-left"><span class="mi-icon">🔄</span><span class="mi-label" style="color:var(--error);">重置学习进度</span></div>
+          <span class="mi-arrow">→</span>
+        </div>
+      </div>
+
+      <!-- 关于 -->
+      <div class="section-title" style="margin-bottom:8px;">ℹ️ 关于</div>
+      <div class="menu-list" style="margin-bottom:12px;">
+        <div class="menu-item" style="cursor:default;">
+          <div class="mi-left"><span class="mi-icon">📱</span><span class="mi-label">当前版本</span></div>
+          <span style="font-size:13px;color:var(--text-secondary);">v1.3</span>
+        </div>
+        <div class="menu-item" onclick="showToast('📧 反馈已发送，感谢你的建议！')">
+          <div class="mi-left"><span class="mi-icon">💬</span><span class="mi-label">意见反馈</span></div>
+          <span class="mi-arrow">→</span>
+        </div>
+        <div class="menu-item" onclick="showToast('⭐ 感谢支持！')">
+          <div class="mi-left"><span class="mi-icon">⭐</span><span class="mi-label">给个好评</span></div>
+          <span class="mi-arrow">→</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== ONBOARDING SCREEN v1.2 ==================== -->
+    <div class="screen" id="screen-onboarding">
+      <div class="onboarding">
+        <div class="on-icon">⚖️</div>
+        <div class="on-title">欢迎来到法学记忆</div>
+        <div class="on-desc">专为在职考研打造，碎片时间高效利用，打开即学、关闭即走。</div>
+
+        <div style="width:100%;max-width:280px;text-align:left;">
+          <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px;">选择备考方向</div>
+          <div class="chip-row" style="margin-bottom:12px;">
+            <span class="chip active" onclick="selectOnboardChip(this)">法硕(法学)</span>
+            <span class="chip" onclick="selectOnboardChip(this)">法硕(非法学)</span>
+          </div>
+
+          <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px;">每天能投入多少时间？</div>
+          <div class="time-select" style="margin-bottom:12px;">
+            <span class="time-chip" onclick="selectTimeChip(this)">30分钟</span>
+            <span class="time-chip selected" onclick="selectTimeChip(this)">1-2小时</span>
+            <span class="time-chip" onclick="selectTimeChip(this)">3小时以上</span>
+          </div>
+
+          <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px;">选择学习偏好</div>
+          <div class="style-options">
+            <div class="style-option selected" onclick="selectStyle(this, 'visual')">
+              <div class="so-title">👁️ 视觉型</div>
+              <div class="so-desc">颜色编码 · 图表可视化</div>
+            </div>
+            <div class="style-option" onclick="selectStyle(this, 'logical')">
+              <div class="so-title">🧩 逻辑型</div>
+              <div class="so-desc">要件拆解 · 推理分析</div>
+            </div>
+            <div class="style-option" onclick="selectStyle(this, 'memory')">
+              <div class="so-title">⚡ 速记型</div>
+              <div class="so-desc">关键词 · 记忆口诀</div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" style="width:100%;max-width:280px;margin-top:6px;" onclick="completeOnboarding()">开始学习 →</button>
+        <div style="font-size:12px;color:var(--text-tertiary);cursor:pointer;" onclick="completeOnboarding()">跳过，直接体验</div>
+      </div>
+    </div>
+
+    <!-- ==================== INSIGHT DETAIL SCREEN ==================== -->
+    <div class="screen" id="screen-insight">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+        <div class="section-title">⚡ AI 薄弱点诊断</div>
+        <button class="btn btn-outline" style="padding:6px 14px;font-size:12px;" onclick="switchTab('home')">← 返回</button>
+      </div>
+      <div class="card">
+        <div style="font-size:14px;color:var(--text);line-height:1.6;margin-bottom:12px;">
+          根据你最近的答题记录，以下 <strong>2 个知识点</strong> 建议重点突破：
+        </div>
+        <div class="wrong-item" onclick="startQuiz();showToast('🎯 已进入正当防卫专项练习，集中突破！')">
+          <div class="wi-header">
+            <span class="wi-tag">错3次</span>
+            <span style="font-size:12px;color:var(--text-secondary);">刑法 · 分则</span>
+          </div>
+          <div class="wi-question">正当防卫与紧急避险的区分</div>
+        </div>
+        <div class="wrong-item" onclick="startQuiz();showToast('🎯 已进入诉讼时效专项练习，集中突破！')">
+          <div class="wi-header">
+            <span class="wi-tag">错2次</span>
+            <span style="font-size:12px;color:var(--text-secondary);">民法 · 总则</span>
+          </div>
+          <div class="wi-question">诉讼时效中止与中断的区别</div>
+        </div>
+      </div>
+      <button class="btn btn-primary" style="width:100%;margin-top:4px;" onclick="startQuiz();showToast('🚀 已生成专项突破练习，加油！')">
+        开始专项突破练习
+      </button>
+    </div>
+
+  <!-- ==================== V1.3 LEARNING STATS SCREEN ==================== -->
+    <div class="screen" id="screen-stats">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+        <div class="section-title">📊 学习统计</div>
+        <button class="btn btn-outline" style="padding:6px 14px;font-size:12px;" onclick="switchTab('profile')">← 返回</button>
+      </div>
+
+      <div class="stats-section">
+        <div class="stats-title">📈 每周正确率趋势</div>
+        <div class="chart-container">
+          <svg viewBox="0 0 340 160">
+            <defs>
+              <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="var(--primary)" stop-opacity="0.2"/>
+                <stop offset="100%" stop-color="var(--primary)" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <!-- Grid lines -->
+            <line x1="40" y1="20" x2="330" y2="20" stroke="#E8DCC8" stroke-width="0.5"/>
+            <line x1="40" y1="55" x2="330" y2="55" stroke="#E8DCC8" stroke-width="0.5"/>
+            <line x1="40" y1="90" x2="330" y2="90" stroke="#E8DCC8" stroke-width="0.5"/>
+            <line x1="40" y1="125" x2="330" y2="125" stroke="#E8DCC8" stroke-width="0.5"/>
+            <!-- Y labels -->
+            <text x="35" y="24" text-anchor="end" font-size="10" fill="#A89888">100%</text>
+            <text x="35" y="59" text-anchor="end" font-size="10" fill="#A89888">75%</text>
+            <text x="35" y="94" text-anchor="end" font-size="10" fill="#A89888">50%</text>
+            <text x="35" y="129" text-anchor="end" font-size="10" fill="#A89888">25%</text>
+            <!-- Area fill -->
+            <polygon fill="url(#lineGrad)" points="60,80 102,55 144,68 186,45 228,52 270,38 312,30 312,130 60,130"/>
+            <!-- Line -->
+            <polyline points="60,80 102,55 144,68 186,45 228,52 270,38 312,30" fill="none" stroke="#722F37" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Dots -->
+            <circle cx="60" cy="80" r="4" fill="#FFF" stroke="#722F37" stroke-width="2"/>
+            <circle cx="102" cy="55" r="4" fill="#FFF" stroke="#722F37" stroke-width="2"/>
+            <circle cx="144" cy="68" r="4" fill="#FFF" stroke="#722F37" stroke-width="2"/>
+            <circle cx="186" cy="45" r="4" fill="#FFF" stroke="#722F37" stroke-width="2"/>
+            <circle cx="228" cy="52" r="4" fill="#FFF" stroke="#722F37" stroke-width="2"/>
+            <circle cx="270" cy="38" r="4" fill="#FFF" stroke="#722F37" stroke-width="2"/>
+            <circle cx="312" cy="30" r="5" fill="#722F37" stroke="#FFF" stroke-width="2"/>
+            <!-- X labels -->
+            <text x="60" y="148" text-anchor="middle" font-size="10" fill="#A89888">周一</text>
+            <text x="102" y="148" text-anchor="middle" font-size="10" fill="#A89888">周二</text>
+            <text x="144" y="148" text-anchor="middle" font-size="10" fill="#A89888">周三</text>
+            <text x="186" y="148" text-anchor="middle" font-size="10" fill="#A89888">周四</text>
+            <text x="228" y="148" text-anchor="middle" font-size="10" fill="#A89888">周五</text>
+            <text x="270" y="148" text-anchor="middle" font-size="10" fill="#A89888">周六</text>
+            <text x="312" y="148" text-anchor="middle" font-size="10" fill="#722F37" font-weight="600">85%</text>
+          </svg>
+        </div>
+        <div class="stat-legend">
+          <div class="stat-legend-item"><span class="stat-legend-dot" style="background:#722F37;"></span> 正确率 ↗ 15%</div>
+        </div>
+      </div>
+
+      <div class="stats-section">
+        <div class="stats-title">🎯 各科掌握度</div>
+        <div class="radar-container">
+          <svg viewBox="0 0 300 200">
+            <!-- Center -->
+            <circle cx="150" cy="100" r="2" fill="#A89888"/>
+            <!-- Grid rings -->
+            <polygon points="150,35 208,68 195,138 105,138 92,68" fill="none" stroke="#E8DCC8" stroke-width="0.5"/>
+            <polygon points="150,50 196,75 186,125 114,125 104,75" fill="none" stroke="#E8DCC8" stroke-width="0.5"/>
+            <polygon points="150,65 184,82 177,112 123,112 116,82" fill="none" stroke="#E8DCC8" stroke-width="0.5"/>
+            <!-- Data polygon -->
+            <polygon points="150,55 191,77 182,118 116,120 108,78" fill="#722F37" fill-opacity="0.15" stroke="#722F37" stroke-width="2"/>
+            <circle cx="150" cy="55" r="4" fill="#722F37"/>
+            <circle cx="191" cy="77" r="4" fill="#722F37"/>
+            <circle cx="182" cy="118" r="4" fill="#722F37"/>
+            <circle cx="116" cy="120" r="4" fill="#722F37"/>
+            <circle cx="108" cy="78" r="4" fill="#722F37"/>
+            <!-- Labels -->
+            <text x="150" y="30" text-anchor="middle" font-size="11" fill="#2C1810" font-weight="600">法理学</text>
+            <text x="218" y="72" text-anchor="middle" font-size="11" fill="#2C1810" font-weight="600">宪法学</text>
+            <text x="205" y="145" text-anchor="middle" font-size="11" fill="#2C1810" font-weight="600">刑法</text>
+            <text x="95" y="145" text-anchor="middle" font-size="11" fill="#2C1810" font-weight="600">民法</text>
+            <text x="82" y="72" text-anchor="middle" font-size="11" fill="#2C1810" font-weight="600">法制史</text>
+            <!-- Score labels -->
+            <text x="150" y="48" text-anchor="middle" font-size="9" fill="#722F37" font-weight="600">60%</text>
+            <text x="205" y="78" text-anchor="middle" font-size="9" fill="#722F37" font-weight="600">42%</text>
+            <text x="195" y="125" text-anchor="middle" font-size="9" fill="#722F37" font-weight="600">39%</text>
+            <text x="100" y="125" text-anchor="middle" font-size="9" fill="#722F37" font-weight="600">30%</text>
+            <text x="95" y="75" text-anchor="middle" font-size="9" fill="#722F37" font-weight="600">30%</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== V1.3 FAVORITES SCREEN ==================== -->
+    <div class="screen" id="screen-favorites">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+        <div class="section-title">⭐ 我的收藏</div>
+        <button class="btn btn-outline" style="padding:6px 14px;font-size:12px;" onclick="switchTab('profile')">← 返回</button>
+      </div>
+      <div class="chip-row" style="margin-bottom:12px;">
+        <span class="chip active" onclick="selectQuizFilter(this)">全部 5</span>
+        <span class="chip" onclick="selectQuizFilter(this)">法条 3</span>
+        <span class="chip" onclick="selectQuizFilter(this)">题目 2</span>
+      </div>
+      <div class="fav-item" onclick="showFlashcard('法理学','第3章 法的本质与特征'); showToast('⭐ 已打开收藏卡片，温故知新')">
+        <span class="fav-star">⭐</span>
+        <div class="fav-info">
+          <div class="fav-title">法的基本特征</div>
+          <div class="fav-meta">法理学 · 闪卡 · 7月10日收藏</div>
+        </div>
+        <span class="fav-arrow">→</span>
+      </div>
+      <div class="fav-item" onclick="showFlashcard('刑法','第6章 正当防卫')">
+        <span class="fav-star">⭐</span>
+        <div class="fav-info">
+          <div class="fav-title">正当防卫构成要件</div>
+          <div class="fav-meta">刑法 · 闪卡 · 7月9日收藏</div>
+        </div>
+        <span class="fav-arrow">→</span>
+      </div>
+      <div class="fav-item" onclick="startQuiz()">
+        <span class="fav-star">⭐</span>
+        <div class="fav-info">
+          <div class="fav-title">正当防卫与紧急避险的区别</div>
+          <div class="fav-meta">刑法 · 选择题 · 答题解析很详细</div>
+        </div>
+        <span class="fav-arrow">→</span>
+      </div>
+      <div class="fav-item" onclick="showFlashcard('民法','第3章 民事法律行为')">
+        <span class="fav-star">⭐</span>
+        <div class="fav-info">
+          <div class="fav-title">诉讼时效中止与中断</div>
+          <div class="fav-meta">民法 · 闪卡 · 7月8日收藏</div>
+        </div>
+        <span class="fav-arrow">→</span>
+      </div>
+      <div class="fav-item" onclick="startQuiz()">
+        <span class="fav-star">⭐</span>
+        <div class="fav-info">
+          <div class="fav-title">宪法基本权利体系</div>
+          <div class="fav-meta">宪法学 · 选择题 · 常考易错</div>
+        </div>
+        <span class="fav-arrow">→</span>
+      </div>
+    </div>
+
+    <!-- ==================== V1.3 AI PORTRAIT SCREEN ==================== -->
+    <div class="screen" id="screen-ai-portrait">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+        <div class="section-title">🧬 AI 学习画像</div>
+        <button class="btn btn-outline" style="padding:6px 14px;font-size:12px;" onclick="switchTab('profile')">← 返回</button>
+      </div>
+      <div class="portrait-header">
+        <div class="portrait-avatar">🧬</div>
+        <div class="profile-name">小明的学习画像</div>
+        <div class="portrait-tagline">基于 67 天 · 1,280 条法条 · 328 道题目的学习数据生成</div>
+      </div>
+      <div class="card" style="margin-bottom:10px;">
+        <div class="section-title" style="margin-bottom:12px;">🏷️ 学习特征</div>
+        <div class="trait-list">
+          <div class="trait-item">
+            <span class="trait-icon">📚</span>
+            <div class="trait-info">
+              <div class="trait-label">最佳学习时段</div>
+              <div class="trait-value">晚间 21:00-23:00 · 正确率最高 76%</div>
+            </div>
+          </div>
+          <div class="trait-item">
+            <span class="trait-icon">💪</span>
+            <div class="trait-info">
+              <div class="trait-label">最强科目</div>
+              <div class="trait-value">法理学 · 正确率 82%</div>
+            </div>
+            <div class="trait-bar"><div class="trait-fill high" style="width:82%"></div></div>
+          </div>
+          <div class="trait-item">
+            <span class="trait-icon">⚠️</span>
+            <div class="trait-info">
+              <div class="trait-label">最弱科目</div>
+              <div class="trait-value">法制史 · 正确率 51%</div>
+            </div>
+            <div class="trait-bar"><div class="trait-fill medium" style="width:51%"></div></div>
+          </div>
+          <div class="trait-item">
+            <span class="trait-icon">🎯</span>
+            <div class="trait-info">
+              <div class="trait-label">易错题型</div>
+              <div class="trait-value">多选题 · 错误率 45% · 建议加强案例分析</div>
+            </div>
+          </div>
+          <div class="trait-item">
+            <span class="trait-icon">🧠</span>
+            <div class="trait-info">
+              <div class="trait-label">记忆风格</div>
+              <div class="trait-value">视觉型 · 偏好颜色编码和图表</div>
+            </div>
+          </div>
+          <div class="trait-item">
+            <span class="trait-icon">⏰</span>
+            <div class="trait-info">
+              <div class="trait-label">学习节奏</div>
+              <div class="trait-value">稳定型 · 日均 12 分钟 · 周末学习量 +30%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="section-title" style="margin-bottom:10px;">💡 AI 建议</div>
+        <div style="font-size:13px;color:var(--text-secondary);line-height:1.7;">
+          1. 建议将 <strong>法制史</strong> 调整为优先复习科目，每天增加 5 张卡片<br>
+          2. 多选题练习时注意 <strong>排除法</strong> 和 <strong>选项对比</strong> 技巧<br>
+          3. 继续保持晚间学习习惯，这是你的高效时段
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== V1.3 AUDIO MODE SCREEN ==================== -->
+    <div class="screen" id="screen-audio">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+        <div class="section-title">🎧 音频学习</div>
+        <button class="btn btn-outline" style="padding:6px 14px;font-size:12px;" onclick="switchTab('profile')">← 返回</button>
+      </div>
+      <div class="audio-mode-card">
+        <div class="am-icon">🎧</div>
+        <div class="am-title">通勤听法条</div>
+        <div class="am-sub">通勤路上、排队等候时，用耳朵复习法条<br>支持后台播放 · 锁屏可控</div>
+        <div class="am-badge">💡 通勤 30 分钟 = 复习 15 条法条</div>
+      </div>
+      <div class="section-title" style="margin-bottom:6px;">🎵 播放列表</div>
+      <div class="audio-playlist">
+        <div class="audio-track playing" onclick="toggleAudio(this)">
+          <span class="at-play">▶️</span>
+          <div class="at-info">
+            <div class="at-title">法理学 · 法的本质与特征</div>
+            <div class="at-meta">45 条法条 · 约 8 分钟</div>
+          </div>
+        </div>
+        <div class="audio-track" onclick="toggleAudio(this)">
+          <span class="at-play">⏸️</span>
+          <div class="at-info">
+            <div class="at-title">刑法 · 正当防卫与紧急避险</div>
+            <div class="at-meta">32 条法条 · 约 6 分钟</div>
+          </div>
+        </div>
+        <div class="audio-track" onclick="toggleAudio(this)">
+          <span class="at-play">⏸️</span>
+          <div class="at-info">
+            <div class="at-title">民法 · 民事法律行为</div>
+            <div class="at-meta">38 条法条 · 约 7 分钟</div>
+          </div>
+        </div>
+        <div class="audio-track" onclick="toggleAudio(this)">
+          <span class="at-play">⏸️</span>
+          <div class="at-info">
+            <div class="at-title">宪法学 · 国家基本制度</div>
+            <div class="at-meta">28 条法条 · 约 5 分钟</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== V1.3 SEARCH OVERLAY ==================== -->
+    <div class="search-overlay" id="searchOverlay">
+      <div class="search-bar">
+        <span style="font-size:18px;">🔍</span>
+        <input type="text" id="searchInput" placeholder="搜索法条、知识点、题目..." oninput="doSearch()" autocomplete="off">
+        <button class="btn btn-outline" style="padding:6px 12px;font-size:12px;" onclick="closeSearch()">取消</button>
+      </div>
+      <div class="search-results" id="searchResults">
+        <div style="font-size:13px;color:var(--text-secondary);padding:8px 0;">💡 试试搜索"正当防卫""诉讼时效""宪法"</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Audio Mini Player -->
+  <div class="audio-mini" id="audioMini">
+    <span style="font-size:14px;">🎧</span>
+    <div class="mini-info">
+      <div class="mini-title">法理学 · 法的本质与特征</div>
+      <div style="opacity:0.7;">正在播放...</div>
+    </div>
+    <span class="mini-btn" onclick="showToast('⏸️ 已暂停，随时继续')">⏸️</span>
+    <span class="mini-close" onclick="document.getElementById('audioMini').classList.remove('show')">✕</span>
+  </div>
+  <div class="bottom-sheet" id="bottomSheet">
+    <div class="sheet-handle"></div>
+    <div id="sheetContent"></div>
+  </div>
+
+  <!-- Tab Bar -->
+  <div class="tab-bar">
+    <button class="tab-item active" onclick="switchTab('home')" data-tab="home">
+      <span class="tab-icon">🏠</span><span>首页</span>
+    </button>
+    <button class="tab-item" onclick="switchTab('memory')" data-tab="memory">
+      <span class="tab-icon">📖</span><span>记忆</span>
+    </button>
+    <button class="tab-item" onclick="switchTab('quiz')" data-tab="quiz">
+      <span class="tab-icon">✏️</span><span>刷题</span>
+    </button>
+    <button class="tab-item" onclick="switchTab('profile')" data-tab="profile">
+      <span class="tab-icon">👤</span><span>我的</span>
+    </button>
+  </div>
+
+</div>
+
+<script>
+// ============ STATE ============
+let currentTab = 'home';
+let isFlipped = false;
+let hasSubmitted = false;
+let quizTimerInterval = null;
+let quizSeconds = 0;
+let selectedStyle = 'visual';
+let currentTheme = 'light';
+
+// Flashcard swipe state
+let swipeStartX = 0;
+let swipeStartY = 0;
+let swipeActive = false;
+
+// ============ TIME-BASED GREETING ============
+function updateGreeting() {
+  const hour = new Date().getHours();
+  let greeting, timeLabel;
+  if (hour < 6) { greeting = '夜深了'; timeLabel = '深夜'; }
+  else if (hour < 9) { greeting = '早上好'; timeLabel = '早晨'; }
+  else if (hour < 12) { greeting = '上午好'; timeLabel = '上午'; }
+  else if (hour < 14) { greeting = '中午好'; timeLabel = '午间'; }
+  else if (hour < 18) { greeting = '下午好'; timeLabel = '下午'; }
+  else if (hour < 21) { greeting = '晚上好'; timeLabel = '晚间'; }
+  else { greeting = '晚上好'; timeLabel = '深夜'; }
+
+  const greetingEl = document.querySelector('.greeting');
+  if (greetingEl) greetingEl.textContent = greeting + '，小明';
+  const timeEl = document.getElementById('timeGreeting');
+  if (timeEl) timeEl.textContent = timeLabel;
+}
+
+// ============ TAB SWITCHING ============
+function switchTab(tab) {
+  if (quizTimerInterval) { clearInterval(quizTimerInterval); quizTimerInterval = null; }
+  isFlipped = false;
+  const fi = document.getElementById('flashcardInner');
+  if (fi) fi.classList.remove('flipped');
+  hasSubmitted = false;
+  const ar = document.getElementById('answerResult');
+  if (ar) ar.style.display = 'none';
+  const bs = document.getElementById('btnSubmit');
+  if (bs) bs.disabled = true;
+  document.querySelectorAll('.option-item').forEach(o => { o.classList.remove('selected','correct','wrong'); });
+
+  currentTab = tab;
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+
+  const screenMap = {
+    'home': 'screen-home', 'memory': 'screen-memory', 'quiz': 'screen-quiz',
+    'profile': 'screen-profile', 'flashcard': 'screen-flashcard',
+    'quiz-play': 'screen-quiz-play', 'wrongbook': 'screen-wrongbook',
+    'style': 'screen-style', 'theme': 'screen-theme',
+    'onboarding': 'screen-onboarding', 'chapters': 'screen-chapters',
+    'insight': 'screen-insight', 'stats': 'screen-stats',
+    'favorites': 'screen-favorites', 'ai-portrait': 'screen-ai-portrait',
+    'audio': 'screen-audio', 'settings': 'screen-settings'
+  };
+  const screenId = screenMap[tab];
+  if (screenId) document.getElementById(screenId).classList.add('active');
+
+  document.querySelectorAll('.tab-item').forEach(t => {
+    t.classList.toggle('active', t.dataset.tab === tab);
+  });
+  document.getElementById('pageContent').scrollTop = 0;
+  document.getElementById('bottomSheet').classList.remove('show');
+  updateGreeting();
+}
+
+// ============ RESUME LEARNING ============
+function resumeLearning() {
+  showFlashcard('法理学', '第3章 法的本质与特征');
+}
+
+// ============ CHAPTER LIST ============
+function showChapterList(subject) {
+  document.getElementById('chSubjectTitle').textContent = subject + ' · 章节列表';
+  switchTab('chapters');
+}
+
+// ============ FLASHCARD ============
+function showFlashcard(subject, chapter) {
+  document.getElementById('fcSubject').textContent = subject + ' · ' + chapter;
+  isFlipped = false;
+  const fi = document.getElementById('flashcardInner');
+  if (fi) fi.classList.remove('flipped');
+  // 重置：显示滑动提示，隐藏评分按钮
+  document.getElementById('swipeHints').style.display = 'flex';
+  document.getElementById('ratingButtons').style.display = 'none';
+  switchTab('flashcard');
+  setupFlashcardSwipe();
+}
+
+function flipCard() {
+  isFlipped = !isFlipped;
+  document.getElementById('flashcardInner').classList.toggle('flipped', isFlipped);
+  if (isFlipped) {
+    // 翻转后：隐藏滑动提示，突出评分按钮
+    document.getElementById('swipeHints').style.display = 'none';
+    document.getElementById('ratingButtons').style.display = 'flex';
+  }
+}
+
+function setupFlashcardSwipe() {
+  const el = document.getElementById('flashcardEl');
+  if (!el) return;
+
+  el.addEventListener('touchstart', function(e) {
+    if (!isFlipped) return;
+    swipeStartX = e.touches[0].clientX;
+    swipeStartY = e.touches[0].clientY;
+    swipeActive = true;
+  }, {passive: true});
+
+  el.addEventListener('touchmove', function(e) {
+    if (!swipeActive || !isFlipped) return;
+    const dx = e.touches[0].clientX - swipeStartX;
+    const dy = e.touches[0].clientY - swipeStartY;
+    el.classList.remove('swiping-left','swiping-right','swiping-up');
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 15) {
+      el.classList.add(dx < 0 ? 'swiping-left' : 'swiping-right');
+    } else if (dy < -20 && Math.abs(dy) > Math.abs(dx)) {
+      el.classList.add('swiping-up');
+    }
+  }, {passive: true});
+
+  el.addEventListener('touchend', function(e) {
+    if (!swipeActive || !isFlipped) { swipeActive = false; return; }
+    const dx = (e.changedTouches[0]?.clientX || swipeStartX) - swipeStartX;
+    const dy = (e.changedTouches[0]?.clientY || swipeStartY) - swipeStartY;
+    el.classList.remove('swiping-left','swiping-right','swiping-up');
+
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 60) {
+      if (dx < 0) {
+        el.classList.add('swipe-out-left');
+        setTimeout(() => rateCard('hard'), 300);
+      } else {
+        el.classList.add('swipe-out-right');
+        setTimeout(() => rateCard('easy'), 300);
+      }
+    } else if (dy < -60 && Math.abs(dy) > Math.abs(dx)) {
+      el.classList.add('swipe-out-up');
+      setTimeout(() => rateCard('medium'), 300);
+    }
+    swipeActive = false;
+  });
+}
+
+function rateCard(rating) {
+  if (!isFlipped) { showToast('👆 请先翻转卡片查看答案'); return; }
+  const messages = {
+    hard: '💪 标记为"需要巩固"，明天我会再提醒你复习',
+    medium: '👍 掌握得不错！2天后见',
+    easy: '👏 已经掌握了！7天后再来检验'
+  };
+  showToast(messages[rating]);
+  isFlipped = false;
+  const fi = document.getElementById('flashcardInner');
+  if (fi) fi.classList.remove('flipped');
+  const el = document.getElementById('flashcardEl');
+  el.classList.remove('swipe-out-left','swipe-out-right','swipe-out-up');
+
+  // 重置：显示滑动提示，隐藏评分按钮
+  document.getElementById('swipeHints').style.display = 'flex';
+  document.getElementById('ratingButtons').style.display = 'none';
+
+  const bar = document.getElementById('fcProgressBar');
+  const progress = document.getElementById('fcProgress');
+  const currentWidth = parseInt(bar.style.width);
+  const parts = progress.textContent.split('/');
+  const newCurrent = parseInt(parts[0]) + 1;
+  const total = parseInt(parts[1]);
+  const newWidth = Math.min(currentWidth + 3, 100);
+  bar.style.width = newWidth + '%';
+  progress.textContent = newCurrent + '/' + total;
+  // 更新剩余数量
+  const remaining = total - newCurrent;
+  const remEl = document.getElementById('fcRemaining');
+  if (remEl) remEl.textContent = remaining > 0 ? '还剩 ' + remaining + ' 张' : '';
+
+  // 完成庆祝
+  if (newCurrent >= total) {
+    setTimeout(() => {
+      showDialog('🎉 本章完成！', '太棒了！你已学完本章所有卡片。<br>掌握 ' + Math.round(newWidth * 0.4) + ' 张，巩固 ' + Math.round(newWidth * 0.6) + ' 张。', [
+        { text: '返回首页', primary: true, action: () => { closeDialog(); switchTab('home'); } },
+        { text: '再来一遍', primary: false, action: () => { closeDialog(); showFlashcard('法理学','第3章 法的本质与特征'); } }
+      ]);
+    }, 400);
+  }
+}
+
+function confirmExitFlashcard() {
+  showDialog('暂存学习进度', '当前进度已自动保存，下次打开将继续从这里开始。', [
+    { text: '继续学习', primary: true, action: closeDialog },
+    { text: '暂存并退出', primary: false, action: () => { closeDialog(); switchTab('home'); } }
+  ]);
+}
+
+// ============ QUIZ ============
+function startQuiz() {
+  hasSubmitted = false;
+  const ar = document.getElementById('answerResult');
+  if (ar) ar.style.display = 'none';
+  const bs = document.getElementById('btnSubmit');
+  if (bs) bs.disabled = true;
+  document.querySelectorAll('.option-item').forEach(o => { o.classList.remove('selected','correct','wrong'); });
+  quizSeconds = 0;
+  updateTimer();
+  if (quizTimerInterval) clearInterval(quizTimerInterval);
+  quizTimerInterval = setInterval(() => { quizSeconds++; updateTimer(); }, 1000);
+  switchTab('quiz-play');
+}
+
+function updateTimer() {
+  const mins = Math.floor(quizSeconds / 60).toString().padStart(2, '0');
+  const secs = (quizSeconds % 60).toString().padStart(2, '0');
+  const el = document.getElementById('qTimer');
+  if (el) el.textContent = mins + ':' + secs;
+}
+
+function selectOption(el) {
+  if (hasSubmitted) return;
+  document.querySelectorAll('#optionList .option-item').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('btnSubmit').disabled = false;
+}
+
+function submitAnswer() {
+  if (hasSubmitted) return;
+  hasSubmitted = true;
+  if (quizTimerInterval) { clearInterval(quizTimerInterval); quizTimerInterval = null; }
+
+  const selected = document.querySelector('#optionList .option-item.selected');
+  const correctIdx = 1;
+  const options = document.querySelectorAll('#optionList .option-item');
+
+  if (selected) {
+    const idx = Array.from(options).indexOf(selected);
+    if (idx === correctIdx) {
+      selected.classList.add('correct');
+      document.getElementById('resultIcon').textContent = '🎉';
+      document.getElementById('resultText').textContent = '答对了！继续保持！';
+      document.getElementById('resultText').style.color = 'var(--success)';
+      showToast('🎉 太棒了！这道题你掌握得很好');
+    } else {
+      selected.classList.add('wrong');
+      document.getElementById('resultIcon').textContent = '💡';
+      document.getElementById('resultText').textContent = '没关系，看看解析，下次就能答对！';
+      document.getElementById('resultText').style.color = 'var(--error)';
+      showToast('💪 别灰心，看过解析下次一定对');
+    }
+  } else {
+    document.getElementById('resultIcon').textContent = '⏭️';
+    document.getElementById('resultText').textContent = '已跳过，回头可以再做一遍';
+    document.getElementById('resultText').style.color = 'var(--text-secondary)';
+  }
+  options[correctIdx].classList.add('correct');
+  document.getElementById('answerResult').style.display = 'block';
+  document.getElementById('btnSubmit').disabled = true;
+  document.getElementById('answerResult').scrollIntoView({ behavior: 'smooth' });
+}
+
+function nextQuestion() {
+  showToast('👍 已进入下一题，加油！');
+  startQuiz();
+}
+
+function confirmExitQuiz() {
+  showDialog('暂存答题进度', '当前进度已自动保存，下次刷题将继续。', [
+    { text: '继续答题', primary: true, action: closeDialog },
+    { text: '暂存并退出', primary: false, action: () => { closeDialog(); switchTab('quiz'); } }
+  ]);
+}
+
+function selectQuizFilter(chip) {
+  chip.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+}
+
+function showWrongBook() { switchTab('wrongbook'); }
+
+function startWrongQuiz() {
+  showToast('📝 错题重做模式已开启，集中攻克薄弱点！');
+  startQuiz();
+}
+
+// ============ STYLE & THEME ============
+function showStyleSheet() { switchTab('style'); }
+function showThemeSheet() { switchTab('theme'); }
+
+function selectStyle(el, style) {
+  el.parentElement.querySelectorAll('.style-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedStyle = style;
+}
+
+function saveStyle() {
+  const names = { visual: '视觉型', logical: '逻辑型', memory: '速记型' };
+  showToast('✅ 已设置为「' + names[selectedStyle] + '」模式，学习体验已更新');
+}
+
+function selectTheme(theme, el) {
+  document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  currentTheme = theme;
+  document.getElementById('app').setAttribute('data-theme', theme);
+  showToast('🎨 主题已切换，眼睛舒服多了');
+}
+
+function toggleSwitch(el) {
+  const isOn = el.style.background === 'var(--primary)' || el.style.background === 'rgb(114, 47, 55)';
+  if (isOn) {
+    el.style.background = 'var(--border)';
+    el.querySelector('span').style.left = '2px';
+  } else {
+    el.style.background = 'var(--primary)';
+    el.querySelector('span').style.left = '20px';
+  }
+}
+
+function selectOnboardChip(chip) {
+  chip.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+}
+
+function selectTimeChip(chip) {
+  chip.parentElement.querySelectorAll('.time-chip').forEach(c => c.classList.remove('selected'));
+  chip.classList.add('selected');
+}
+
+function completeOnboarding() {
+  switchTab('home');
+  showToast('🎓 欢迎！每天进步一点点，法硕上岸不是梦');
+}
+
+// ============ INSIGHT ============
+function showInsightDetail() { switchTab('insight'); }
+
+// ============ TOAST ============
+function showToast(msg) {
+  const existing = document.querySelector('.toast');
+  if (existing) existing.remove();
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = msg;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 2200);
+}
+
+// ============ DIALOG ============
+function showDialog(title, desc, buttons) {
+  const overlay = document.createElement('div');
+  overlay.className = 'dialog-overlay';
+  overlay.innerHTML = `
+    <div class="dialog">
+      <div class="d-title">${title}</div>
+      <div class="d-desc">${desc}</div>
+      <div class="dialog-actions">
+        ${buttons.map((b, i) => `
+          <button class="btn ${b.primary ? 'btn-primary' : 'btn-secondary'}" style="flex:1;" data-idx="${i}">
+            ${b.text}
+          </button>
+        `).join('')}
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = parseInt(btn.dataset.idx);
+      buttons[idx].action();
+    });
+  });
+}
+
+function closeDialog() {
+  const overlay = document.querySelector('.dialog-overlay');
+  if (overlay) overlay.remove();
+}
+
+// ============ V1.3: SEARCH ============
+function openSearch() {
+  document.getElementById('searchOverlay').classList.add('show');
+  setTimeout(() => document.getElementById('searchInput').focus(), 100);
+}
+
+function closeSearch() {
+  document.getElementById('searchOverlay').classList.remove('show');
+  document.getElementById('searchInput').value = '';
+  document.getElementById('searchResults').innerHTML = '<div style="font-size:13px;color:var(--text-secondary);padding:8px 0;">💡 试试搜索"正当防卫""诉讼时效""宪法"</div>';
+}
+
+function doSearch() {
+  const q = document.getElementById('searchInput').value.trim();
+  if (!q) {
+    closeSearch();
+    openSearch();
+    return;
+  }
+  const results = [
+    { icon: '📖', title: '正当防卫 · 记忆卡片', sub: '刑法 · 第6章 · 32张卡片', badge: '闪卡', action: () => { closeSearch(); showFlashcard('刑法','第6章 正当防卫与紧急避险'); } },
+    { icon: '✏️', title: '正当防卫与紧急避险的区别', sub: '刑法 · 选择题 · 错3次', badge: '题目', action: () => { closeSearch(); startQuiz(); } },
+    { icon: '📖', title: '诉讼时效中止与中断', sub: '民法 · 第3章 · 38张卡片', badge: '闪卡', action: () => { closeSearch(); showFlashcard('民法','第3章 民事法律行为'); } },
+    { icon: '📖', title: '宪法基本权利体系', sub: '宪法学 · 第2章 · 28张卡片', badge: '闪卡', action: () => { closeSearch(); showFlashcard('宪法学','第2章 国家基本制度'); } },
+    { icon: '✏️', title: '宪法规定的公民政治权利', sub: '宪法学 · 选择题 · 错1次', badge: '题目', action: () => { closeSearch(); startQuiz(); } },
+  ];
+  const filtered = q ? results.filter(r => r.title.includes(q) || r.sub.includes(q)) : results;
+  if (filtered.length === 0) {
+    document.getElementById('searchResults').innerHTML = '<div style="text-align:center;padding:24px;font-size:14px;color:var(--text-secondary);">未找到相关内容</div>';
+    return;
+  }
+  document.getElementById('searchResults').innerHTML = filtered.map(r => `
+    <div class="search-result" onclick="(${r.action.toString()})()">
+      <span class="sr-icon">${r.icon}</span>
+      <div class="sr-info">
+        <div class="sr-title">${r.title}</div>
+        <div class="sr-sub">${r.sub}</div>
+      </div>
+      <span class="sr-badge">${r.badge}</span>
+    </div>
+  `).join('');
+}
+
+// ============ V1.3: AUDIO ============
+function toggleAudio(el) {
+  document.querySelectorAll('.audio-track').forEach(t => t.classList.remove('playing'));
+  document.querySelectorAll('.audio-track .at-play').forEach(s => s.textContent = '⏸️');
+  el.classList.add('playing');
+  el.querySelector('.at-play').textContent = '▶️';
+  const title = el.querySelector('.at-title').textContent;
+  document.querySelector('.audio-mini .mini-title').textContent = title;
+  document.getElementById('audioMini').classList.add('show');
+  showToast('🎧 正在播放：' + title + ' · 通勤路上也能学');
+}
+
+// ============ V1.3: DAILY REPORT ============
+function showDailyReport() {
+  const overlay = document.createElement('div');
+  overlay.className = 'dialog-overlay';
+  overlay.innerHTML = `
+    <div class="report-dialog">
+      <div class="rd-icon">🎉</div>
+      <div class="rd-title">今日学习报告</div>
+      <div class="rd-stats">
+        <div class="rd-stat">
+          <div class="rds-val">12</div>
+          <div class="rds-label">分钟</div>
+        </div>
+        <div class="rd-stat">
+          <div class="rds-val">15</div>
+          <div class="rds-label">张卡片</div>
+        </div>
+        <div class="rd-stat">
+          <div class="rds-val">10</div>
+          <div class="rds-label">道题目</div>
+        </div>
+        <div class="rd-stat">
+          <div class="rds-val">85%</div>
+          <div class="rds-label">正确率</div>
+        </div>
+      </div>
+      <div class="rd-encourage">
+        📈 你的正确率比上周提升了 <strong>3%</strong><br>
+        💪 法理学掌握度最高，继续保持！<br>
+        ⚠️ 明天建议重点复习 <strong>法制史</strong>
+      </div>
+      <button class="btn btn-primary" style="width:100%;" onclick="this.closest('.dialog-overlay').remove();">知道了 👍</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+}
+
+// ============ INIT ============
+updateGreeting();
+switchTab('home');
+// switchTab('onboarding'); // Uncomment to show onboarding
+</script>
+
+</body>
+</html>
