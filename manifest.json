@@ -1,0 +1,27 @@
+{
+  "name": "法学记忆 - 法硕考研助手",
+  "short_name": "法学记忆",
+  "description": "在职法硕考研专用记忆助手，闪卡背诵、真题练习、AI智能提醒",
+  "start_url": "/law-memory-proto/",
+  "scope": "/law-memory-proto/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FBF7F0",
+  "theme_color": "#722F37",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "productivity"],
+  "lang": "zh-CN"
+}
